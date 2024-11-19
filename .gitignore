@@ -1,0 +1,30 @@
+# User-specific files
+*.xcuserdata/
+*.xcuserstate
+
+# Build products
+build/
+*.app
+*.ipa
+*.dSYM
+
+# Derived data
+DerivedData/
+
+# Logs
+*.log
+
+# Swift Package Manager
+.swiftpm/
+Packages/
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/screenshots/
+fastlane/test_output/
