@@ -9,19 +9,20 @@ import SwiftUI
 import SwiftData
 
 struct AddHabitView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.presentationMode) private var presentationMode
     @State private var habitName: String = ""
     @State private var selectedReward: Int? = nil
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
                 Button(action: {
-                    presentationMode.wrappedValue.dismiss() // Go back to the previous screen
+                    presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "chevron.left")
                         .font(.title)
-                        .foregroundColor(.blue)
+                        .foregroundColor(.black)
                 }
                 Spacer()
                 Text("Add Habit")
@@ -32,10 +33,12 @@ struct AddHabitView: View {
             .padding()
 
             // Text Box for Adding a Habit
-            TextField("Enter habit name...", text: $habitName)
+            TextField("Enter habit...", text: $habitName)
                 .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color(hex: "#FFCD43"), lineWidth: 2)
+                )
                 .padding(.horizontal)
 
             // Reward Section
@@ -53,8 +56,12 @@ struct AddHabitView: View {
                             .font(.title2)
                             .fontWeight(.bold)
                             .frame(width: 50, height: 50)
-                            .background(selectedReward == number ? Color.blue : Color(hex: "#FFCD43"))
-                            .foregroundColor(selectedReward == number ? .white : .black)
+                            .background(selectedReward == number ? Color(hex: "#FFCD43") : Color.white)
+                            .foregroundColor(.black)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color(hex: "#FFCD43"), lineWidth: 2)
+                            )
                             .clipShape(Circle())
                     }
                 }
@@ -67,13 +74,17 @@ struct AddHabitView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    // Action for adding the habit
+                    if let reward = selectedReward, !habitName.isEmpty {
+                        let newHabit = Habit(name: habitName, reward: reward)
+                        modelContext.insert(newHabit) // Add habit to SwiftData context
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }) {
                     Text("Add")
                         .font(.headline)
                         .frame(width: UIScreen.main.bounds.width / 3, height: 50)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
+                        .background(Color(hex: "#FFCD43"))
+                        .foregroundColor(.black)
                         .cornerRadius(10)
                 }
             }
@@ -83,6 +94,7 @@ struct AddHabitView: View {
         .navigationBarBackButtonHidden(true)
     }
 }
+
 
 #Preview {
     AddHabitView()
