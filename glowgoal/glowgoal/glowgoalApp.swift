@@ -24,9 +24,9 @@ struct glowgoalApp: App {
     }()
 
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+            WindowGroup {
+                ContentView()
+            }
+            .modelContainer(for: Habit.self) // Add SwiftData model container
         }
-        .modelContainer(sharedModelContainer)
-    }
 }

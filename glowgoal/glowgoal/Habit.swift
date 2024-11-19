@@ -11,10 +11,16 @@ import SwiftData
 class Habit {
     var name: String
     var reward: Int
+    var isCompleted: Bool //if completed
+    var currentStreak: Int
+    var dayUntilReward: Int
 
-    init(name: String, reward: Int) {
+    init(name: String, reward: Int, currentStreak: Int, dayUntilReward: Int) {
         self.name = name
         self.reward = reward
+        self.isCompleted = false
+        self.currentStreak = 0
+        self.dayUntilReward = 7
     }
 }
 
