@@ -15,7 +15,7 @@ class Habit {
     var currentStreak: Int
     var dayUntilReward: Int
 
-    init(name: String, reward: Int, currentStreak: Int, dayUntilReward: Int) {
+    init(name: String, reward: Int) {
         self.name = name
         self.reward = reward
         self.isCompleted = false

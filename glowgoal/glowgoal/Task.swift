@@ -3,7 +3,7 @@ import SwiftUI
 struct Task: Identifiable {
     let id = UUID()
     let name: String //name of task
-    let icon: String // image of icon --> TODO: fix this later --> not String type
+    let icon: String // image of icon 
     var isCompleted: Bool //if completed
 }
 
