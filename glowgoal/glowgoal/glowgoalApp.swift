@@ -9,11 +9,13 @@ import SwiftUI
 import SwiftData
 
 @main
-struct glowgoalApp: App {
+struct GlowGoalApp: App {
+    // Injecting the model context
+  
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: [ Habit.self], inMemory: true)
         }
-        .modelContainer(for: [Habit.self]) // Specify all models here
     }
 }

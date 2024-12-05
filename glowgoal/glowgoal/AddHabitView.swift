@@ -76,7 +76,7 @@ struct AddHabitView: View {
                 Button(action: {
                     if let reward = selectedReward, !habitName.isEmpty {
                         let newHabit = Habit(name: habitName, reward: reward)
-                        modelContext.insert(newHabit) // Add habit to SwiftData context
+                        modelContext.insert(newHabit) 
                         presentationMode.wrappedValue.dismiss()
                     }
                 }) {

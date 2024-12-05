@@ -11,8 +11,16 @@ import SwiftData
 struct ContentView: View {
     @Query(sort: \Habit.name) private var habits: [Habit]
     @Environment(\.modelContext) private var context
+    
 
+    
     var body: some View {
+        Image("Logo")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 100, height: 100)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+        
         NavigationView {
             List {
                 ForEach(habits, id: \.id) { habit in
@@ -39,6 +47,11 @@ struct ContentView: View {
                         Image(systemName: "plus")
                     }
                 }
+                ToolbarItem(placement: .bottomBar) {
+                    NavigationLink(destination: StorefrontView()) {
+                        Image(systemName: "gift")
+                    }
+                }
             }
         }
     }
@@ -49,12 +62,14 @@ struct ContentView: View {
         habit.dayUntilReward -= 1
 
         if habit.dayUntilReward <= 0 {
-            // Reset dayUntilReward to 7 if a reward is achieved
             habit.dayUntilReward = 7
+           totalCoins += habit.reward  // Update the total coins persistently
         }
 
+        // Save the changes to Core Data
         do {
             try context.save()
+          
         } catch {
             print("Failed to update habit: \(error)")
         }
@@ -62,8 +77,7 @@ struct ContentView: View {
 }
 
 
-
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: [Item.self, Habit.self], inMemory: true)
 }
