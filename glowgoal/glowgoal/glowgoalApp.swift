@@ -15,7 +15,7 @@ struct GlowGoalApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: [ Habit.self], inMemory: true)
+                .modelContainer(for: [ Habit.self])
         }
     }
 }

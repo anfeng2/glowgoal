@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct StorefrontView: View {
-    
+    @State private var purchasedItems: [StoreItem] = []
     private let items: [StoreItem] = [
         StoreItem(imageName: "img9", cost: 5),
         StoreItem(imageName: "img1", cost: 10),
@@ -23,15 +23,24 @@ struct StorefrontView: View {
     var body: some View {
         NavigationView {
             VStack {
-                // Display user's coins
+     
                 HStack {
                     Text("Coins: \(totalCoins)")
                         .font(.title2)
                         .padding()
                     Spacer()
+                    NavigationLink(destination: CollectionView(purchasedItems: purchasedItems)) {
+                        Text("My Collection")
+                            .font(.headline)
+                            .padding(8)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding()
                 }
                 
-                // Store items grid
+                
                 ScrollView {
                     LazyVGrid(columns: [
                         GridItem(.flexible()),
@@ -40,25 +49,22 @@ struct StorefrontView: View {
                     ], spacing: 20) {
                         ForEach(items, id: \.imageName) { item in
                             VStack {
-                                // Display item image
+                                
                                 Image(item.imageName)
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 100, height: 100)
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                 
-                                // Display item cost
+                                
                                 Text("\(item.cost) Coins")
                                     .font(.caption)
                                 
-                                // Purchase button
+                                
                                 Button(action: {
                                     if totalCoins >= item.cost {
                                         totalCoins -= item.cost
                                         purchasedItems.append(item)
-                                        
-                                        // Save changes to the context after making updates
-                                
                                     }
                                 }) {
                                     Text("Buy")
@@ -71,9 +77,7 @@ struct StorefrontView: View {
                                         .foregroundColor(.white)
                                         .cornerRadius(5)
                                 }
-                                .disabled(
-                                    totalCoins < item.cost
-                                )
+                                .disabled(totalCoins < item.cost)
                             }
                         }
                     }
@@ -83,6 +87,4 @@ struct StorefrontView: View {
             .navigationTitle("Storefront")
         }
     }
-
-    
 }

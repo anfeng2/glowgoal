@@ -11,6 +11,8 @@ import SwiftData
 
 struct ViewHabitView: View {
     @Bindable var habit: Habit
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -24,11 +26,30 @@ struct ViewHabitView: View {
             Text("Days Until Reward: \(habit.dayUntilReward)")
                 .font(.headline)
 
-            
-
             Spacer()
         }
         .padding()
         .navigationTitle("Habit Details")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: deleteHabit) {
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                }
+            }
+        }
+    }
+
+    private func deleteHabit() {
+    
+        modelContext.delete(habit)
+
+        
+        do {
+            try modelContext.save()
+            dismiss()
+        } catch {
+            print("Failed to delete habit: \(error)")
+        }
     }
 }

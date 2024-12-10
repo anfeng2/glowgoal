@@ -47,11 +47,15 @@ struct ContentView: View {
                         Image(systemName: "plus")
                     }
                 }
+                
                 ToolbarItem(placement: .bottomBar) {
                     NavigationLink(destination: StorefrontView()) {
                         Image(systemName: "gift")
                     }
                 }
+                
+                
+                
             }
         }
     }
@@ -63,10 +67,10 @@ struct ContentView: View {
 
         if habit.dayUntilReward <= 0 {
             habit.dayUntilReward = 7
-           totalCoins += habit.reward  // Update the total coins persistently
+           totalCoins += habit.reward  
         }
 
-        // Save the changes to Core Data
+
         do {
             try context.save()
           

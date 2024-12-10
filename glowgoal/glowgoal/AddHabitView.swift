@@ -76,7 +76,14 @@ struct AddHabitView: View {
                 Button(action: {
                     if let reward = selectedReward, !habitName.isEmpty {
                         let newHabit = Habit(name: habitName, reward: reward)
-                        modelContext.insert(newHabit) 
+                        modelContext.insert(newHabit)
+                        do {
+                            try modelContext.save()
+                            presentationMode.wrappedValue.dismiss()
+                        } catch {
+                            print("Failed to save new habit: \(error)")
+                        }
+                    
                         presentationMode.wrappedValue.dismiss()
                     }
                 }) {
@@ -98,5 +105,5 @@ struct AddHabitView: View {
 
 #Preview {
     AddHabitView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: Habit.self, inMemory: true)
 }

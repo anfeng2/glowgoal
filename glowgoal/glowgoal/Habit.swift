@@ -19,8 +19,8 @@ class Habit {
         self.name = name
         self.reward = reward
         self.isCompleted = false
-        self.currentStreak = 0
-        self.dayUntilReward = 7
+        self.currentStreak = 6
+        self.dayUntilReward = 1
     }
 }
 
