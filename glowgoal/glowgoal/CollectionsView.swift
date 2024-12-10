@@ -6,17 +6,17 @@
 //
 
 import SwiftUI
+import _SwiftData_SwiftUI
 
 struct CollectionView: View {
-    let purchasedItems: [StoreItem]
+    @Query(filter: #Predicate { (item: StoreItem) in item.isPurchased == true }) private var purchasedItems: [StoreItem]
     
     var body: some View {
         NavigationView {
             VStack {
                 if purchasedItems.isEmpty {
-                    Text("You haven't purchased any items yet.")
+                    Text("No items in your collection.")
                         .font(.headline)
-                        .padding()
                 } else {
                     ScrollView {
                         LazyVGrid(columns: [
@@ -24,25 +24,22 @@ struct CollectionView: View {
                             GridItem(.flexible()),
                             GridItem(.flexible())
                         ], spacing: 20) {
-                            ForEach(purchasedItems.indices, id: \.self) { index in
-                                let item = purchasedItems[index]
+                            ForEach(purchasedItems, id: \.id) { item in
                                 VStack {
                                     Image(item.imageName)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 100, height: 100)
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    
+
                                     Text("\(item.cost) Coins")
                                         .font(.caption)
                                 }
                             }
                         }
-                        .padding()
                     }
                 }
             }
-            .navigationTitle("My Collection")
         }
+        .navigationTitle("My Collection")
     }
 }
